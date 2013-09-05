@@ -1,4 +1,7 @@
 var config = require('./config');
+
+config.test = 'lol';
+return;
 var http = require('http');
 var Imap = require("imap"),
     inspect = require('util').inspect;

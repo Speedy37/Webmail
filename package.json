@@ -7,7 +7,8 @@
     "test": "node test/test.js"
   },
   "dependencies": {
-    "imap": "0.8.2"
+    "imap": "0.8.2",
+    "express": "3.x"
   },
   "repository": { "type" : "git", "url" : "https://github.com/Speedy37/Webmail.git"},
   "keywords": [
