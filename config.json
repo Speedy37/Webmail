@@ -1,0 +1,10 @@
+{
+    "imap" : {
+      "user": "vincent.rouille@gmail.com",
+      "password": "ulviqowdhwqpyrph",
+      "host": "imap.gmail.com",
+      "port": 993,
+      "tls": true,
+      "tlsOptions": { "rejectUnauthorized": false }
+    }
+}

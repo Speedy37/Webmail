@@ -1,0 +1,23 @@
+{
+  "name": "speedy37-webmail",
+  "version": "0.0.1",
+  "description": "Webmail",
+  "main": "app.js",
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "dependencies": {
+    "imap": "0.8.2"
+  },
+  "repository": { "type" : "git", "url" : "https://github.com/Speedy37/Webmail.git"},
+  "keywords": [
+    "imap",
+    "client",
+    "smtp",
+    "mail",
+    "webmail"
+  ],
+  "author": "Vincent Rouille <vincent@speedy37.fr>",
+  "license": "MIT",
+  "readmeFilename": "README.md"
+}
