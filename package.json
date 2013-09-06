@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "imap": "0.8.2",
-    "express": "3.x"
+    "express": "3.x",
+    "socket.io" : "0.9.x"
   },
   "repository": { "type" : "git", "url" : "https://github.com/Speedy37/Webmail.git"},
   "keywords": [
