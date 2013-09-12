@@ -1,24 +1,36 @@
 <!DOCTYPE html>
 <html>
-
     <head>
         <title>Web Mail</title>
+        <link rel="stylesheet" href="app.css" type="text/css" />
+        <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+        <script type="text/javascript" src="app.js"></script>
     </head>
 
     <body>
         <div id="login">
-            <div>
-                <label for="login-username" class="i18n" data-i18n="login.username" />
+            <div>
+                <label for="login-username" class="i18n">login.username</label>
                 <input id="login-username" type="text" />
             </div>
             <div>
-                <label for="login-password" class="i18n" data-i18n="login.password" />
+                <label for="login-password" class="i18n">login.password</label>
                 <input id="login-password" type="password" />
+            </div>
+            <div>
+                <input id="login-submit" type="button" class="i18n" value="login.submit" />
             </div>
         </div>
         <div id="main">
             <div id="main-top">
+                <div id="main-search" class="search-input">
+                    <input type="text" />
+                    <input type="button" />
+                </div>
+                <div id="main-userspace">
 
+                </div>
             </div>
             <div id="main-tabs">
 

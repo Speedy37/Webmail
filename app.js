@@ -1,69 +1,38 @@
 var config = require('./config');
+var User = require('./lib/user');
 
-config.test = 'lol';
-return;
-var http = require('http');
-var Imap = require("imap"),
-    inspect = require('util').inspect;
+var express = require('express');
+var app = express();
+var server = require('http').createServer(app);
+var io = require('socket.io').listen(server);
 
-var imap = new Imap(config.imap);
+server.listen(process.env.PORT, process.env.IP);
 
-function openInbox(cb) {
-  imap.openBox('INBOX', true, cb);
-}
+app.use(express.bodyParser());
+app.use('/static', express.static(__dirname + '/static'));
 
-imap.once('ready', function() {
-  openInbox(function(err, box) {
-    if (err) throw err;
-    var f = imap.seq.fetch('1:3', {
-      bodies: 'HEADER.FIELDS (FROM TO SUBJECT DATE)',
-      struct: true
-    });
-    f.on('message', function(msg, seqno) {
-      console.log('Message #%d', seqno);
-      var prefix = '(#' + seqno + ') ';
-      msg.on('body', function(stream, info) {
-        var buffer = '';
-        stream.on('data', function(chunk) {
-          buffer += chunk.toString('utf8');
-        });
-        stream.once('end', function() {
-          console.log(prefix + 'Parsed header: %s', inspect(Imap.parseHeader(buffer)));
-        });
-      });
-      msg.once('attributes', function(attrs) {
-        console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));
-      });
-      msg.once('end', function() {
-        console.log(prefix + 'Finished');
-      });
-    });
-    f.once('error', function(err) {
-      console.log('Fetch error: ' + err);
-    });
-    f.once('end', function() {
-      console.log('Done fetching all messages!');
-      imap.end();
-    });
+io.sockets.on('connection', function(socket) {
+
+  socket.on('login', function(data) {
+    try {
+      if(typeof data.username !== "string" || data.username.length === 0 || data.username.length >= 255)
+        throw "bad-username";
+      if(typeof data.password !== "string" || data.password.length === 0 || data.password.length >= 255)
+        throw "bad-password";
+
+      // Logging in
+      User.login(data.username, data.password, socket);
+    } catch(exception) {
+      socket.emit('error', exception);
+    }
   });
+
+  socket.on('connect', function(data) {
+    if(user !== null) {
+      socket.emit('error', "already-logged-in");
+    } else {
+      User.session(data.session_id, socket);
+    }
+  });
+
 });
-
-imap.once('error', function(err) {
-  console.log(err);
-});
-
-imap.once('end', function() {
-  console.log('Connection ended');
-});
-
-imap.connect();
-
-return;
-
-http.createServer(function(req, res) {
-	res.writeHead(200, {
-		'Content-Type' : 'text/plain'
-	});
-	res.end('Hello World2\n');
-}).listen(process.env.PORT, process.env.IP);
-console.log('Server running at http://'+process.env.IP+':'+process.env.PORT+'/');
